@@ -1,0 +1,54 @@
+import pygame
+import sys
+import time
+
+pygame.init()
+
+WHITE = (255, 255, 255)
+
+SCREEN_WIDTH = 1500
+SCREEN_HEIGHT = 600
+
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("")
+
+x = SCREEN_WIDTH // 2
+y = SCREEN_HEIGHT // 2
+size = 50
+
+speed = 2.3
+
+start_time = time.time()
+
+is_controlling_cube = False
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+    keys = pygame.key.get_pressed()
+
+    if keys[pygame.K_a] and x - speed > 0:
+        x -= speed
+        is_controlling_cube = True
+    if keys[pygame.K_d] and x + size + speed < SCREEN_WIDTH:
+        x += speed
+        is_controlling_cube = True
+    if keys[pygame.K_w] and y - speed > 0:
+        y -= speed
+        is_controlling_cube = True
+    if keys[pygame.K_s] and y + size + speed < SCREEN_HEIGHT:
+        y += speed
+        is_controlling_cube = True
+
+
+    screen.fill(WHITE)
+    pygame.draw.rect(screen, (0, 128, 255), (x, y, size, size))
+    pygame.display.flip()
+
+
+    if is_controlling_cube:
+        elapsed_time = time.time() - start_time
+        print(f"Sekondomer: {round(elapsed_time, 2)} sec")
+
